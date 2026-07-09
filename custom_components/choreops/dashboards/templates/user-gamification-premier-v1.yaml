@@ -63,6 +63,8 @@ views:
 
                   {%- set pref_show_configuration_button = true -%}  {#-- Set to false to hide configuration gear. Allowed: true, false. --#}
 
+                  {%- set pref_allow_header_collapse = true -%}  {#-- Set to false to prevent the header collapse. Allowed: true, false --#}
+
                   {#-- 2. Dynamic Lookups & Validations --#}
 
                   {%- set pref_primary_tint_mix_pct = pref_primary_tint_mix_pct | int(default=14) -%}
@@ -761,6 +763,9 @@ views:
                                         'show_name': true,
                                         'show_icon': true,
                                         'tap_action': ({
+				                                  'action': 'none'
+			                                  } if not pref_allow_header_collapse
+                                        else ({
                                           'action': 'call-service',
                                           'service': 'choreops.manage_ui_control',
                                           'data': {
@@ -1141,7 +1146,7 @@ views:
                           }),
                           'hold_action': {'action': 'none'},
                           'custom_fields': {
-                            'toggle': "<ha-icon icon='" ~ ('mdi:chevron-down' if header_collapsed else 'mdi:chevron-up') ~ "' style='width:18px;height:18px;color: var(--primary-color);'></ha-icon>"
+                            'toggle': ( "<ha-icon icon='" ~ ('mdi:chevron-down' if header_collapsed else 'mdi:chevron-up') ~ "' style='width:18px;height:18px;color: var(--primary-color);'></ha-icon>" if pref_allow_header_collapse else "" ) 
                           },
                           'styles': {
                             'card': [
@@ -1178,7 +1183,8 @@ views:
                             'custom_fields': {
                               'toggle': [
                                 {'justify-self': 'end'},
-                                {'align-self': 'center'}
+                                {'align-self': 'center'},
+                                {'display': 'block' if pref_allow_header_collapse else 'none'}
                               ]
                             }
                           }
