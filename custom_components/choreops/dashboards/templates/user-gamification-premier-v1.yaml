@@ -61,6 +61,7 @@ views:
 
                   {%- set pref_show_header_thin_border = true -%}  {#-- Set to false to remove the thin outer border line. Accent borders are unaffected. Allowed: true, false. --#}
 
+                  {%- set pref_show_configuration_button = true -%}  {#-- Set to false to hide configuration gear. Allowed: true, false. --#}
 
                   {#-- 2. Dynamic Lookups & Validations --#}
 
@@ -1864,7 +1865,7 @@ views:
                               'gear': [
                                 {'justify-self': 'end'},
                                 {'align-self': 'center'},
-                                {'display': 'none' if header_collapsed else 'block'}
+                                {'display': 'none' if header_collapsed or not pref_show_configuration_button else 'block'}
                               ],
                               'toggle': [
                                 {'justify-self': 'end'},
